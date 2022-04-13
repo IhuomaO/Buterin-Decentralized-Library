@@ -69,13 +69,13 @@ contract DecentralizedLibrary {
 
     //HELPER FUNCTION 02
     //return ether balance of the wallet calling the function
-    function viewBalance() internal view returns (uint256) {
+    function viewBalance() public view returns (uint256) {
         return msg.sender.balance;
     }
 
     //HELPER FUNCTION 03
     //confirm if address is in the mapping
-    function isAnUploader(address _address) internal view returns (bool) {
+    function isAnUploader(address _address) public view returns (bool) {
         for (uint8 s = 0; s < upLoaders.length; s += 1) {
             if (_address == upLoaders[s]) return (true);
         }
