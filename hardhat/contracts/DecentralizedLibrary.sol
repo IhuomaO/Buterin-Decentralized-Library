@@ -82,3 +82,49 @@ contract DecentralizedLibrary {
         return (false);
     }
 }
+
+  //CHUKWUMA_DAVID'S CONTRIBUTIONS
+
+    //Variable to store the list of files shared by an address
+    mapping(address => string[]) sharedFiles;
+    
+    //variable to store the list of files shared with an address
+    mapping(address => mapping(address => string[])) recipientFiles;
+
+    //list of recipients
+    mapping(address => bool) public recipients;
+
+
+    ///FUNCTION O4
+    //A function to share files between addresses
+    //_from = address of sender
+    //_to = address of recipient
+    function shareFile(address _from, address _to, string[] memory _cidFiles) public {
+        require(msg.sender == _from, "you are not the sender");
+
+        string[] memory _updatedCidFiles;
+        _updatedCidFiles = _addTwoArrays(_from, _cidFiles);
+
+        sharedFiles[_from] = _updatedCidFiles;
+        recipientFiles[_from][_to] = _updatedCidFiles;
+        recipients[_to] = true;
+    }
+
+    //FUNCTION 05
+    //A function to get shared files
+    function getSharedFiles() public view returns(string[] memory) {
+        return sharedFiles[msg.sender];
+    }
+
+    //FUNCITON 06
+    //Function to get recipient files
+    //_to = address of recipient
+    function getRecipientFiles(address _to) public view returns(string[] memory) {
+        return recipientFiles[msg.sender][_to];
+    }
+
+
+}
+
+
+
