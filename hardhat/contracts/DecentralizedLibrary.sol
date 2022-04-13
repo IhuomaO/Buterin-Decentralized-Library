@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-contract DecenLibrary {
+contract DecentralizedLibrary {
     //Variables
     address[] public upLoaders; //Variable to track the addressees that has uploaded
     mapping(address => string[]) public _uploadedCIDS; //Variable to track the uploaded cids of an address
