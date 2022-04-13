@@ -20,7 +20,7 @@
     "fork": "yarn hardhat fork",
     "node": "yarn hardhat chain",
     "test": "yarn hardhat test",
-    "start": "yarn react-app start",
+    "start": "yarn --cwd react-app start",
     "compile": "yarn hardhat compile",
     "deploy": "yarn hardhat deploy",
     "watch": "yarn hardhat watch",
@@ -53,6 +53,10 @@
     "theme": "yarn react-app theme",
     "watch-theme": "yarn react-app watch"
   },
+  "workspaces": {
+    "packages": [
+      "react-app/*"
+    ],
     "nohoist": [
       "**/@graphprotocol/graph-ts",
       "**/@graphprotocol/graph-ts/**",
@@ -60,6 +64,7 @@
       "**/hardhat/**",
       "**/hardhat-ts",
       "**/hardhat-ts/**"
-    ],
+    ]
+  },
   "dependencies": {}
 }

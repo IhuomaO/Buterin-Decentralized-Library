@@ -1,12 +1,18 @@
-import logo from './logo.svg';
 import './App.css';
+import Home from './Views/Home';
+import Layout from './Components/Layout'
+import { useState } from 'react';
+import LandingPage from './Views/LandingPage';
 
 function App() {
+  const [page, setPage] = useState(0);
+  const pageHandler = (index) => {
+    setPage(index)
+  }
   return (
-    <div>
-      
-      
-    </div>
+    <Layout page={page} pageHandler={pageHandler} className=' items-center '>
+      {page === 1 ? <Home /> : <LandingPage/>}
+    </Layout>
   );
 }
 
