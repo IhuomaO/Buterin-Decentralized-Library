@@ -2,35 +2,57 @@
 
 pragma solidity ^0.8.0;
 
-contract DecenLibrary {
+contract DecentralizedLibrary {
     //Variables
+    address[] public upLoaders; //Variable to track the addressees that has uploaded
     mapping(address => string[]) public _uploadedCIDS; //Variable to track the uploaded cids of an address
 
     //FUNCTION 01
-    //first upload
+    //first upload oooof
     function _upload(string[] memory _cidsToUpload) public {
         _uploadedCIDS[msg.sender] = _cidsToUpload;
+        upLoaders.push(msg.sender);
     }
 
     //FUNCTION 02
     //subsequent uploads
     function _subsequentUpload(string[] memory _newCidsToUpload) public {
-        // string[] calldata _uploadedCIDSArray;
-        string[] memory _existingCIDS;
-        _existingCIDS = _getListOfUploadedCIDS(msg.sender);
+        // string[] memory _existingCIDS;
+        // _existingCIDS = _getListOfUploadedCIDS(msg.sender);
         string[] memory _updatedCIDS;
         _updatedCIDS = _addTwoArrays(msg.sender, _newCidsToUpload); //helper function 1
         _uploadedCIDS[msg.sender] = _updatedCIDS;
     }
 
     //FUNCTION 03
-    //view all your uploads
+    //view all uploads of an address
     function _getListOfUploadedCIDS(address _address)
         public
         view
         returns (string[] memory)
     {
         return _uploadedCIDS[_address];
+    }
+
+    //FUNCTION 04
+    //share an array of cids with an existing address
+    function _shareWithExisting(string[] memory _cidsToShare, address _address)
+        public
+    {
+        // string[] memory _existingCIDS;
+        // _existingCIDS = _getListOfUploadedCIDS(_address);
+        string[] memory _updatedCIDS;
+        _updatedCIDS = _addTwoArrays(_address, _cidsToShare); //helper function 1
+        _uploadedCIDS[_address] = _updatedCIDS;
+    }
+
+    //FUNCTION 05
+    //share an array of cids with a new address
+    function _shareWithNew(string[] memory _cidsToShare, address _address)
+        public
+    {
+        upLoaders.push(_address);
+        _uploadedCIDS[_address] = _cidsToShare;
     }
 
     //HELPER FUNCTION 01
@@ -47,7 +69,16 @@ contract DecenLibrary {
 
     //HELPER FUNCTION 02
     //return ether balance of the wallet calling the function
-    function viewBalance() internal view returns (uint256) {
+    function viewBalance() public view returns (uint256) {
         return msg.sender.balance;
+    }
+
+    //HELPER FUNCTION 03
+    //confirm if address is in the mapping
+    function isAnUploader(address _address) public view returns (bool) {
+        for (uint8 s = 0; s < upLoaders.length; s += 1) {
+            if (_address == upLoaders[s]) return (true);
+        }
+        return (false);
     }
 }
