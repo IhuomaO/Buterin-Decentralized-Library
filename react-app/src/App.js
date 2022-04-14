@@ -1,5 +1,5 @@
 import './App.css';
-import Ipfs from './Utils/ipfs';
+import Ipfs from './utils/ipfs';
 
 function App() {
   return (

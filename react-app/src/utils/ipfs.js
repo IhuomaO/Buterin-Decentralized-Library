@@ -5,6 +5,7 @@ import { web3, contract } from "./contract";
 const Ipfs = () => {
   const [buffer, setBuffer] = useState([]);
   const [urls, setUrls] = useState([]);
+  const [fileArr, setFileArr] = useState([]);
 
   const client = create("https://ipfs.infura.io:5001/api/v0");
   const convertToBuffer = (reader) => {
@@ -25,6 +26,8 @@ const Ipfs = () => {
         return alert('File too Big')
       }
     })
+    console.log(files.fileList,"hhhh", fileArray.length);
+    setFileArr(fileArray)
     
     fileArray.forEach((file) => {
       let reader = new window.FileReader();
@@ -45,7 +48,14 @@ const Ipfs = () => {
 
         const _path = await client.add(buff);
         const url = `https://ipfs.infura.io/ipfs/${_path.path}`
-        setUrls((prev) => [...prev, url]);
+        fileArr.forEach(async singleFile=>{
+          const metadata = {
+            name: singleFile.name,
+            url
+          }
+          const {path} = await client.add(JSON.stringify(metadata));
+          setUrls((prev) => [...prev, path]);
+        })
       })
       
     } catch (error) {
