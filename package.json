@@ -29,7 +29,7 @@
     "verify": "yarn hardhat verify",
     "send": "yarn hardhat send",
     "ipfs": "yarn react-app ipfs",
-    "surge": "yarn react-app surge",
+    "surge": "yarn --cwd react-app surge",
     "s3": "yarn react-app s3",
     "ship": "yarn react-app ship",
     "generate": "yarn hardhat generate",
