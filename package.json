@@ -14,13 +14,13 @@
     "react-app:eject": "yarn react-app eject",
     "react-app:start": "yarn react-app start",
     "react-app:test": "yarn react-app test",
-    "build": "yarn react-app build --max-old-space-size=12288",
+    "build": "yarn --cwd react-app build --max-old-space-size=12288",
     "prettier": "yarn react-app prettier",
     "chain": "yarn hardhat chain",
     "fork": "yarn hardhat fork",
     "node": "yarn hardhat chain",
     "test": "yarn hardhat test",
-    "start": "yarn react-app start",
+    "start": "yarn --cwd react-app start",
     "compile": "yarn hardhat compile",
     "deploy": "yarn hardhat deploy",
     "watch": "yarn hardhat watch",
@@ -53,13 +53,15 @@
     "theme": "yarn react-app theme",
     "watch-theme": "yarn react-app watch"
   },
-    "nohoist": [
-      "**/@graphprotocol/graph-ts",
-      "**/@graphprotocol/graph-ts/**",
-      "**/hardhat",
-      "**/hardhat/**",
-      "**/hardhat-ts",
-      "**/hardhat-ts/**"
-    ],
-  "dependencies": {}
+  "nohoist": [
+    "**/@graphprotocol/graph-ts",
+    "**/@graphprotocol/graph-ts/**",
+    "**/hardhat",
+    "**/hardhat/**",
+    "**/hardhat-ts",
+    "**/hardhat-ts/**"
+  ],
+  "dependencies": {
+    "surge": "^0.23.1"
+  }
 }
