@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { create } from "ipfs-http-client";
-import { web3, contract } from "./contract";
+import { web3, contract } from "../contract";
 
 const IpfsUpload = () => {
   const [buffer, setBuffer] = useState([]);
@@ -51,6 +51,7 @@ const IpfsUpload = () => {
     await contract.methods._upload(urls).send({
       from: accounts[0],
     });
+    console.log("File successfully uploaded from " + accounts[0]);
   };
   return { captureFile, handleUpload };
 };

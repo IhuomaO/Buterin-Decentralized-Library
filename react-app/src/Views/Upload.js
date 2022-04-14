@@ -12,7 +12,9 @@ const Upload = () => {
         <FileInput captureFile={captureFile} />
         <Input label="Name of file" />
         <textarea></textarea>
-        <Button className="mx-auto text-white">Submit</Button>
+        <Button className="mx-auto text-white" type="submit">
+          Submit
+        </Button>
       </div>
     </form>
   );

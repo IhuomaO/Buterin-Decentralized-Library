@@ -12,6 +12,7 @@ const FileInput = ({ captureFile }) => {
           id="file-upload"
           className=""
           onChange={captureFile}
+          multiple
         />
       </div>
     </div>
