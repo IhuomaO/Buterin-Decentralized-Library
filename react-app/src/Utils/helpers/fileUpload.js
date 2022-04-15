@@ -4,9 +4,8 @@ import { web3, contract } from "../contract";
 
 const IpfsUpload = () => {
   const [buffer, setBuffer] = useState([]);
-  const [urls, setUrls] = useState([]);
-  const [metadata, setMetadata] = useState([]);
   const [metadataCID, setMetadataCID] = useState([]);
+  const metadata = []
 
   const client = create("https://ipfs.infura.io:5001/api/v0");
   const convertToBuffer = (reader) => {
@@ -34,7 +33,6 @@ const IpfsUpload = () => {
       reader.readAsArrayBuffer(file);
       reader.onloadend = () => convertToBuffer(reader);
     });
-    console.log(fileArray);
   };
 
   const handleUpload = async (event, values, setValues, initial) => {
@@ -45,28 +43,29 @@ const IpfsUpload = () => {
 
     console.log("Sending from Metamask account: " + accounts[0]);
     try {
-      buffer?.map(async (buff) => {
-        const { path } = await client.add(buff);
+      for (let i = 0; i < buffer.length; i++) {
+        const { path } = await client.add(buffer[i]);
         const url = `https://ipfs.infura.io/ipfs/${path}`;
-        console.log("deployed here:", url);
+        console.log("File", i + 1, "deployed at: ", url);
         const metaData = {
-          name,
-          description,
-          visibility,
-          cid: url,
+          "name": name,
+          "description": description,
+          "visibility": visibility,
+          "cid": url,
         };
-        setMetadata((prev) => [...prev, [JSON.stringify(metaData)]]);
-        // setUrls((prev) => [...prev, url]);
-      });
+        metadata.push(JSON.stringify(metaData))
+      }
 
-      // const { path } = await client.add(metadata);
-      const { path } = await client.add(metadata);
-      const url = `https://ipfs.infura.io/ipfs/${path}`;
+      console.log("metadata array", metadata);
+      const file = new File(metadata, 'meta.json', { type: "application/json" })
 
-      console.log("Url to be saved on smart contract: ", url);
+      const { path } = await client.add(file);
+      const metaUrl = `https://ipfs.infura.io/ipfs/${path}`;
 
-      setMetadataCID(url);
-      await contract.methods._upload(metadataCID).send({
+      console.log("Metadata deployed at: ", metaUrl);
+
+      setMetadataCID(metaUrl);
+      await contract.methods._upload(metaUrl).send({
         from: accounts[0],
       });
       setValues(initial);
@@ -76,8 +75,6 @@ const IpfsUpload = () => {
       console.log(error);
     }
   };
-  console.log("Hashed url stored in state: ", metadataCID);
-  console.log("Metadata ", metadata);
 
   return { captureFile, handleUpload, metadata, metadataCID };
 };

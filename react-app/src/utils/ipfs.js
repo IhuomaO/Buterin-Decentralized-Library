@@ -43,8 +43,8 @@ const Ipfs = () => {
     try {
       buffer?.map( async buff => {
 
-        const _path = await client.add(buff);
-        const url = `https://ipfs.infura.io/ipfs/${_path.path}`
+        const {path} = await client.add(buff);
+        const url = `https://ipfs.infura.io/ipfs/${path}`
         setUrls((prev) => [...prev, url]);
       })
       

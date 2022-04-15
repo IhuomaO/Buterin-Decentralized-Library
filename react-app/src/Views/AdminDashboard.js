@@ -10,12 +10,9 @@ const AdminDashboard = () => {
   const [sendAmount, setSendAmount] = useState(0)
   const feedback = ''
 
-  console.log(sendAddress);
-  console.log(sendAmount);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('handlesubmit');
     if (isValidAddress(sendAddress)) return
 
   }

@@ -15,7 +15,7 @@ const Upload = () => {
   };
   const { values, onChange, setValues } = useForm(initialState);
 
-  const { captureFile, handleUpload, metadata, metadataCID } = IpfsUpload();
+  const { captureFile, handleUpload } = IpfsUpload();
   return (
     <form
       className=" h-4/5 text-white flex"
