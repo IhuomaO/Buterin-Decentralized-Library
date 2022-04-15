@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.0;
 
 contract DecentralizedLibrary {
@@ -18,13 +19,20 @@ contract DecentralizedLibrary {
     /// @notice Upload a file as a first-time user of the Library
     /// @dev Update the mapping based on the address calling the function with the array of uploaded hashes
     /// @param _cidsToUpload The Array list of hashes to upload to IPFS
+
+    event Upload(string message);
+    event SubsequentUpload(string message);
+    event SharewithExisting(string message, address  recipient);
+    event SharewithNew(string message, address  recipient);
+
     function _upload(string[] memory _cidsToUpload) public {
         _uploadedCIDS[msg.sender] = _cidsToUpload;
         upLoaders.push(msg.sender);
         for (uint256 i = 0; i < _cidsToUpload.length; i += 1) {
             allUploadedFiles.push(_cidsToUpload[i]);
         } //push all the new files to the allUploadedFiles array
-        //emit an event DAVID***  1
+       
+        emit Upload("You have uploaded a file");
     }
 
     /// @notice Upload a file as an existing user of the Library
@@ -38,7 +46,8 @@ contract DecentralizedLibrary {
         for (uint256 i = 0; i < _newCidsToUpload.length; i += 1) {
             allUploadedFiles.push(_newCidsToUpload[i]);
         } //push all the new files to the allUploadedFiles array
-        //emit an event DAVID***  2
+       
+        emit SubsequentUpload("You have uploaded another file");
     }
 
     /// @notice Get a list of uploaded hashes from the Library for a particular address
@@ -76,7 +85,8 @@ contract DecentralizedLibrary {
             _cidsToShare
         ); // calc the new list of shared files for sharer
         _sharedFiles[msg.sender] = _updatedSharedSenderCIDS; //add the files to the sharers sharedFiles mapping
-        //emit an event DAVID***  3
+      
+        emit SharewithExisting("You have shared a file with an existing address", _recipient);
     }
 
     //// @notice Share files with a non existing customer in the Library
@@ -95,7 +105,8 @@ contract DecentralizedLibrary {
             _cidsToShare
         ); // calc the new list of shared files for sharer
         _sharedFiles[msg.sender] = _updatedSharedSenderCIDS; //add the files to the sharers sharedFiles mapping
-        //emit an event DAVID***  4
+     
+        emit SharewithNew("You have shared a file with a new address", _recipient);
     }
 
     /// @notice Adds two arrays of strings together
@@ -153,6 +164,5 @@ contract DecentralizedLibrary {
 //TO DO
 //1. AGREE ON SHARING LOGIC **DAVID & TEGA
 //2. CREATE PROPER COMMENTS NATSPEC **TEGA
-//3. EMIT EVENTS **DAVID
 //4. DEPLOY FINAL CONTRACT TO RINKEBY **TEGA
 
