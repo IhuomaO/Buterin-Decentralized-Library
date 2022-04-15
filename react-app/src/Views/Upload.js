@@ -15,7 +15,7 @@ const Upload = () => {
   };
   const { values, onChange, setValues } = useForm(initialState);
 
-  const { captureFile, handleUpload } = IpfsUpload();
+  const { captureFile, handleUpload, metadata, metadataCID } = IpfsUpload();
   return (
     <form
       className=" h-4/5 text-white flex"
@@ -29,7 +29,6 @@ const Upload = () => {
           value={values.name}
           onChange={onChange}
         />
-
         <div>
           <label
             htmlFor="visibility"
