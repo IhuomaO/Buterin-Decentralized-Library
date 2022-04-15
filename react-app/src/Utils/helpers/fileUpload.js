@@ -65,7 +65,7 @@ const IpfsUpload = () => {
       console.log("Metadata deployed at: ", metaUrl);
 
       setMetadataCID(metaUrl);
-      await contract.methods._upload(metaUrl).send({
+      await contract.methods._upload([metaUrl]).send({
         from: accounts[0],
       });
       setValues(initial);
