@@ -3,14 +3,20 @@ import PropTypes from "prop-types";
 
 const Input = ({ label, name, placeholder, type, ...props }) => {
   return (
-    <div className="w-max space-x-16 text-xl mx-auto font-semibold">
-      <label htmlFor={name}>{label}:</label>
+    <div>
+      <label
+        htmlFor={name}
+        className="form-label inline-block mb-1 text-white-700"
+      >
+        {label}:
+      </label>
+
       <input
         type={type || "text"}
         placeholder={placeholder}
         id={name}
         name={name}
-        className="w-[300px] lg:w-[500px] px-5 py-[4px] border rounded text-lg text-black focus:outline-double"
+        className="w-[300px] lg:w-full px-5 py-[4px] border block rounded text-lg text-black focus:outline-double"
         {...props}
       />
     </div>
