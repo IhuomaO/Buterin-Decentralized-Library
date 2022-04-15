@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.0;
 
 contract DecentralizedLibrary {
@@ -15,6 +16,11 @@ contract DecentralizedLibrary {
     /// @dev Variable is an array of strings. Each upload generates a string and that string is stored in an array an passed into this variable
     mapping(address => string[]) public _sharedFiles;
 
+    event Upload(string message);
+    event SubsequentUpload(string message);
+    event SharewithExisting(string message, address recipient);
+    event SharewithNew(string message, address recipient);
+
     /// @notice Upload a file as a first-time user of the Library
     /// @dev Update the mapping based on the address calling the function with the array of uploaded hashes
     /// @param _cidsToUpload The Array list of hashes to upload to IPFS
@@ -24,7 +30,8 @@ contract DecentralizedLibrary {
         for (uint256 i = 0; i < _cidsToUpload.length; i += 1) {
             allUploadedFiles.push(_cidsToUpload[i]);
         } //push all the new files to the allUploadedFiles array
-        //emit an event DAVID***  1
+
+        emit Upload("You have just uploaded your first file");
     }
 
     /// @notice Upload a file as an existing user of the Library
@@ -38,7 +45,15 @@ contract DecentralizedLibrary {
         for (uint256 i = 0; i < _newCidsToUpload.length; i += 1) {
             allUploadedFiles.push(_newCidsToUpload[i]);
         } //push all the new files to the allUploadedFiles array
-        //emit an event DAVID***  2
+
+        emit SubsequentUpload("You have uploaded another file");
+    }
+
+    /// @notice Get a list of all uploaded hashes from the Library
+    /// @dev view function to return an array of strings representing the hashes of all uploaded files in the Library
+    /// @return An array of strings, representing the uploaded hashes of metadata files to IPFS
+    function _getListOfAllUploadedCIDS() public view returns (string[] memory) {
+        return allUploadedFiles;
     }
 
     /// @notice Get a list of uploaded hashes from the Library for a particular address
@@ -76,7 +91,11 @@ contract DecentralizedLibrary {
             _cidsToShare
         ); // calc the new list of shared files for sharer
         _sharedFiles[msg.sender] = _updatedSharedSenderCIDS; //add the files to the sharers sharedFiles mapping
-        //emit an event DAVID***  3
+
+        emit SharewithExisting(
+            "You have shared a file with an existing address",
+            _recipient
+        );
     }
 
     //// @notice Share files with a non existing customer in the Library
@@ -95,12 +114,30 @@ contract DecentralizedLibrary {
             _cidsToShare
         ); // calc the new list of shared files for sharer
         _sharedFiles[msg.sender] = _updatedSharedSenderCIDS; //add the files to the sharers sharedFiles mapping
-        //emit an event DAVID***  4
+
+        emit SharewithNew(
+            "You have shared a file with a new address",
+            _recipient
+        );
     }
 
-    /// @notice Adds two arrays of strings together
+    /// @notice Get a list of all files that an address has shared
+    /// @param _address The address to check for it's shared files
+    /// @return An array pf strings, representing the list of shared files for the address
+    function _getSharedFiles(address _address) public view returns (string[] memory) {
+        return _sharedFiles[_address];
+    }
+
+
+    //HELPER FUNCTIONS
+    //HELPER FUNCTIONS
+    //HELPER FUNCTIONS
+
+
+    /// @notice Adds two arrays of strings together when uploading a file
     /// @dev Retrieve the array of existing hashes and add to it, the elements of another similar array
-    /// @param _address The address to check it's existing hashes
+    /// @dev This is tailored for uploading and subsequent uploads
+    /// @param _address The address to check for it's existing hashes
     /// @param _newCidsToUpload The new set of hashes to add to the existing
     /// @return An array of strings, representing the total hashes of existing and new hashes
     function _addTwoArrays(address _address, string[] memory _newCidsToUpload)
@@ -114,7 +151,11 @@ contract DecentralizedLibrary {
         return _updatedCIDS; //final array is updated
     }
 
-    //needs proper comments
+    /// @notice Adds two arrays of strings together when sharing a file
+    /// @dev Retrieve the array of existing shared hashes and add to it, the elements of another similar array
+    /// @param _address The address to check for it's existing shared hashes
+    /// @param _cidsToShare The new set of shared hashes to add to the existing
+    /// @return An array of strings, representing the total hashes of existing and new shared hashes
     function _addTwoArraysShared(address _address, string[] memory _cidsToShare)
         public
         returns (string[] memory)
@@ -134,7 +175,7 @@ contract DecentralizedLibrary {
 
     /// @notice Check if an address is an existing user of the Library
     /// @dev confirm if address is in the User Array
-    /// @param _address The address to check it's an existing user
+    /// @param _address The address to check if it's an existing user
     /// @return boolean, whether an address is existing in the Users Array
     function isAnUploader(address _address) public view returns (bool) {
         for (uint8 s = 0; s < upLoaders.length; s += 1) {
@@ -142,17 +183,6 @@ contract DecentralizedLibrary {
         }
         return (false);
     }
-
-    //FUNCTION 05
-    //A function to get shared files
-    function getSharedFiles() public view returns (string[] memory) {
-        return _sharedFiles[msg.sender];
-    }
 }
 
-//TO DO
-//1. AGREE ON SHARING LOGIC **DAVID & TEGA
-//2. CREATE PROPER COMMENTS NATSPEC **TEGA
-//3. EMIT EVENTS **DAVID
 //4. DEPLOY FINAL CONTRACT TO RINKEBY **TEGA
-
