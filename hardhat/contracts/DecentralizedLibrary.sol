@@ -1,18 +1,19 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-/// @title A decentralized Library for uploading, retrieving and sharing files
-/// @author Team Buterin-BlockGames Zuri
-/// @notice You can use this contract to upload, retrieve and share files to a decetralized Library
-/// @dev All functions currently run without errors or unexpected outputs. The Library is a web3 version of the IPFS system
-/// @custom: An experimental and Proof Of Concept contract deployed for testing purposes only.
 contract DecentralizedLibrary {
-    /// @notice Public Variable to track the addresses that has uploaded
+    /// @notice Public Variable to track all the hashes(cids) that has been uploaded to library
+    /// @dev Variable is an array of strings
+    string[] public allUploadedFiles;
+    /// @notice Public Variable to track the addresses that has uploaded files to Library
     /// @dev Variable is an array of addresses
     address[] public upLoaders;
     /// @notice Public Variable to track the uploaded hashes of the metadata of files uploaded by an address
     /// @dev Variable is an array of strings. Each upload generates a string and that string is stored in an array an passed into this variable
-    mapping(address => string[]) public _uploadedCIDS; 
+    mapping(address => string[]) public _uploadedCIDS;
+    /// @notice Public Variable to track the uploaded hashes of the metadata of files uploaded by an address
+    /// @dev Variable is an array of strings. Each upload generates a string and that string is stored in an array an passed into this variable
+    mapping(address => string[]) public _sharedFiles;
 
     /// @notice Upload a file as a first-time user of the Library
     /// @dev Update the mapping based on the address calling the function with the array of uploaded hashes
@@ -20,23 +21,29 @@ contract DecentralizedLibrary {
     function _upload(string[] memory _cidsToUpload) public {
         _uploadedCIDS[msg.sender] = _cidsToUpload;
         upLoaders.push(msg.sender);
+        for (uint256 i = 0; i < _cidsToUpload.length; i += 1) {
+            allUploadedFiles.push(_cidsToUpload[i]);
+        } //push all the new files to the allUploadedFiles array
+        //emit an event DAVID***  1
     }
 
     /// @notice Upload a file as an existing user of the Library
     /// @dev Update the mapping based on the address calling the function with the array of uploaded hashes
     /// @dev Call the _addTwoArrays to add the new list of hashes to the existing list
-    /// @param _newCidsToUpload The Array list of hashes to upload to IPFS 
+    /// @param _newCidsToUpload The Array list of hashes to upload to IPFS
     function _subsequentUpload(string[] memory _newCidsToUpload) public {
-        // string[] memory _existingCIDS;
-        // _existingCIDS = _getListOfUploadedCIDS(msg.sender);
         string[] memory _updatedCIDS;
         _updatedCIDS = _addTwoArrays(msg.sender, _newCidsToUpload); //helper function 1
         _uploadedCIDS[msg.sender] = _updatedCIDS;
+        for (uint256 i = 0; i < _newCidsToUpload.length; i += 1) {
+            allUploadedFiles.push(_newCidsToUpload[i]);
+        } //push all the new files to the allUploadedFiles array
+        //emit an event DAVID***  2
     }
 
-    /// @notice Get a list of uploaded hashes from the Library
-    /// @dev view function to return an array of strings representing the hashes of uploaded files
-    /// @param _address The address to check it's uploaded files
+    /// @notice Get a list of uploaded hashes from the Library for a particular address
+    /// @dev view function to return an array of strings representing the hashes of uploaded files for a particular address
+    /// @param _address The address to check for it's uploaded files
     /// @return An array of strings, representing the uploaded hashes of metadata files to IPFS
     function _getListOfUploadedCIDS(address _address)
         public
@@ -49,24 +56,46 @@ contract DecentralizedLibrary {
     /// @notice Share files with an existing customer in the Library
     /// @dev Update the recipients mapping address with the list of shared files
     /// @param _cidsToShare An array of strings to hold the hashes of files to share
-    /// @param _address The address to share the files with
-    function _shareWithExisting(string[] memory _cidsToShare, address _address)
-        public
-    {
+    /// @param _recipient The address to share the files with
+    function _shareWithExisting(
+        string[] memory _cidsToShare,
+        address _recipient
+    ) public {
         string[] memory _updatedCIDS;
-        _updatedCIDS = _addTwoArrays(_address, _cidsToShare); 
-        _uploadedCIDS[_address] = _updatedCIDS;
+        _updatedCIDS = _addTwoArrays(_recipient, _cidsToShare); //calculate the new list of files for the recipient
+        _uploadedCIDS[_recipient] = _updatedCIDS; //add the files to the recipient mapping address
+        string[] memory _updatedSharedReceipientCIDS;
+        _updatedSharedReceipientCIDS = _addTwoArraysShared(
+            _recipient,
+            _cidsToShare
+        ); // calc the new list of shared files for receiver
+        _sharedFiles[_recipient] = _updatedSharedReceipientCIDS; //add the files to the recipient sharedFiles mapping
+        string[] memory _updatedSharedSenderCIDS;
+        _updatedSharedSenderCIDS = _addTwoArraysShared(
+            msg.sender,
+            _cidsToShare
+        ); // calc the new list of shared files for sharer
+        _sharedFiles[msg.sender] = _updatedSharedSenderCIDS; //add the files to the sharers sharedFiles mapping
+        //emit an event DAVID***  3
     }
 
     //// @notice Share files with a non existing customer in the Library
     /// @dev Update the recipients mapping address with the list of shared files
     /// @param _cidsToShare An array of strings to hold the hashes of files to share
-    /// @param _address The address to share the files with
-    function _shareWithNew(string[] memory _cidsToShare, address _address)
+    /// @param _recipient The address to share the files with
+    function _shareWithNew(string[] memory _cidsToShare, address _recipient)
         public
     {
-        upLoaders.push(_address);
-        _uploadedCIDS[_address] = _cidsToShare;
+        upLoaders.push(_recipient); // add the recipient to the list of uploaders
+        _uploadedCIDS[_recipient] = _cidsToShare; //add the files to the recipient mapping address
+        _sharedFiles[_recipient] = _cidsToShare; //add the files to the recipient sharedFiles mapping
+        string[] memory _updatedSharedSenderCIDS;
+        _updatedSharedSenderCIDS = _addTwoArraysShared(
+            msg.sender,
+            _cidsToShare
+        ); // calc the new list of shared files for sharer
+        _sharedFiles[msg.sender] = _updatedSharedSenderCIDS; //add the files to the sharers sharedFiles mapping
+        //emit an event DAVID***  4
     }
 
     /// @notice Adds two arrays of strings together
@@ -85,6 +114,18 @@ contract DecentralizedLibrary {
         return _updatedCIDS; //final array is updated
     }
 
+    //needs proper comments
+    function _addTwoArraysShared(address _address, string[] memory _cidsToShare)
+        public
+        returns (string[] memory)
+    {
+        string[] storage _updatedSharedCIDS = _sharedFiles[_address];
+        for (uint8 i = 0; i < _cidsToShare.length; i += 1) {
+            _updatedSharedCIDS.push(_cidsToShare[i]);
+        }
+        return _updatedSharedCIDS;
+    }
+
     /// @notice Get balance of address calling function
     /// @return ether balance of the wallet calling the function
     function viewBalance() public view returns (uint256) {
@@ -101,50 +142,17 @@ contract DecentralizedLibrary {
         }
         return (false);
     }
-}
-
-  //CHUKWUMA_DAVID'S CONTRIBUTIONS
-
-    //Variable to store the list of files shared by an address
-    mapping(address => string[]) sharedFiles;
-    
-    //variable to store the list of files shared with an address
-    mapping(address => mapping(address => string[])) recipientFiles;
-
-    //list of recipients
-    mapping(address => bool) public recipients;
-
-
-    ///FUNCTION O4
-    //A function to share files between addresses
-    //_from = address of sender
-    //_to = address of recipient
-    function shareFile(address _from, address _to, string[] memory _cidFiles) public {
-        require(msg.sender == _from, "you are not the sender");
-
-        string[] memory _updatedCidFiles;
-        _updatedCidFiles = _addTwoArrays(_from, _cidFiles);
-
-        sharedFiles[_from] = _updatedCidFiles;
-        recipientFiles[_from][_to] = _updatedCidFiles;
-        recipients[_to] = true;
-    }
 
     //FUNCTION 05
     //A function to get shared files
-    function getSharedFiles() public view returns(string[] memory) {
-        return sharedFiles[msg.sender];
+    function getSharedFiles() public view returns (string[] memory) {
+        return _sharedFiles[msg.sender];
     }
-
-    //FUNCITON 06
-    //Function to get recipient files
-    //_to = address of recipient
-    function getRecipientFiles(address _to) public view returns(string[] memory) {
-        return recipientFiles[msg.sender][_to];
-    }
-
-
 }
 
-
+//TO DO
+//1. AGREE ON SHARING LOGIC **DAVID & TEGA
+//2. CREATE PROPER COMMENTS NATSPEC **TEGA
+//3. EMIT EVENTS **DAVID
+//4. DEPLOY FINAL CONTRACT TO RINKEBY **TEGA
 
