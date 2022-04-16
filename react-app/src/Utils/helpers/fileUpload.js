@@ -37,8 +37,8 @@ const IpfsUpload = () => {
 
   const handleUpload = async (event, values, setValues, initial) => {
     event.preventDefault();
-    const { name, description, status } = values;
-
+    const { name, description, status, type } = values;
+console.log(type);
     const accounts = await web3.eth.getAccounts();
 
     console.log("Sending from Metamask account: " + accounts[0]);
@@ -52,7 +52,8 @@ const IpfsUpload = () => {
           "description": description,
           "visibility": status,
           "cid": path,
-          "user": accounts[0]
+          "user": accounts[0],
+          "type": type
         };
         metadata.push(JSON.stringify(metaData));
       }
