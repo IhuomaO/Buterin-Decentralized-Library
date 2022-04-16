@@ -33,7 +33,7 @@ function LandingPage() {
         </div>
       </section>
 
-      <section className="grid grid-cols-3 gap-10 ">
+      <section className="grid grid-cols-3 gap-10 p-5 ">
         {
           metaCids?.map((metacid, index) => (
             <Card key={metacid} metacid={metacid}  />
