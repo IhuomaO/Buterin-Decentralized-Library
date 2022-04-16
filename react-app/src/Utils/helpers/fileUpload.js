@@ -19,7 +19,7 @@ const IpfsUpload = () => {
     const { files } = event.target;
     const fileArray = [];
     Object.keys(files).map((key) => {
-      if (files[key].size < 2000000) {
+      if (files[key].size < 5000000) {
         fileArray.push(files[key]);
         values.file = [...fileArray];
         return fileArray;
@@ -37,7 +37,7 @@ const IpfsUpload = () => {
 
   const handleUpload = async (event, values, setValues, initial) => {
     event.preventDefault();
-    const { name, description, visibility } = values;
+    const { name, description, status } = values;
 
     const accounts = await web3.eth.getAccounts();
 
@@ -50,14 +50,17 @@ const IpfsUpload = () => {
         const metaData = {
           "name": name,
           "description": description,
-          "visibility": visibility,
-          "cid": url,
+          "visibility": status,
+          "cid": path,
+          "user": accounts[0]
         };
-        metadata.push(JSON.stringify(metaData))
+        metadata.push(JSON.stringify(metaData));
       }
 
       console.log("metadata array", metadata);
-      const file = new File(metadata, 'meta.json', { type: "application/json" })
+      const file = new File(metadata, "meta.json", {
+        type: "application/json",
+      });
 
       const { path } = await client.add(file);
       const metaUrl = `https://ipfs.infura.io/ipfs/${path}`;
@@ -65,7 +68,7 @@ const IpfsUpload = () => {
       console.log("Metadata deployed at: ", metaUrl);
 
       setMetadataCID(metaUrl);
-      await contract.methods._upload([metaUrl]).send({
+      await contract.methods._upload([path]).send({
         from: accounts[0],
       });
       setValues(initial);

@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Button from "../Button";
 import { requestAccount } from "../../utils/helpers/ConnectMetamask.helper";
 
 const Nav = ({ page, pageHandler, connectWallet }) => {
-  const links = ["Home", "Upload"];
-  const [walletAddress, setWalletAddress] = useState("");
+  const links = ["Home", "Upload", "Share"];
+  const [walletAddress, setWalletAddress] = useState(
+    localStorage.getItem("account")
+  );
 
   return (
     <div className="flex h-20 items-center shadow-md p-2 sticky bg-gray-100 top-0 z-10">
@@ -23,21 +25,21 @@ const Nav = ({ page, pageHandler, connectWallet }) => {
         ))}
       </nav>
       <div className="w-[550px] flex items-center ">
-        {walletAddress.length > 0 && (
+        {walletAddress !== null && (
           <h3 className="font-semibold">
             Wallet Address: <br />{" "}
             <span className="font-normal"> {walletAddress}</span>
           </h3>
         )}
 
-        {
+        {walletAddress === null && (
           <Button
             className="mx-auto"
             onClick={() => requestAccount(setWalletAddress)}
           >
-            {walletAddress.length > 0 ? "Disconnect" : "Connect"}
+            Connect
           </Button>
-        }
+        )}
       </div>
     </div>
   );
