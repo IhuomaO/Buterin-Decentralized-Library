@@ -29,7 +29,6 @@ const Upload = () => {
           value={values.name}
           onChange={onChange}
         />
-
         <div>
           <label
             htmlFor="visibility"
