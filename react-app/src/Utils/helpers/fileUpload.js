@@ -19,7 +19,7 @@ const IpfsUpload = () => {
     const { files } = event.target;
     const fileArray = [];
     Object.keys(files).map((key) => {
-      if (files[key].size < 2000000) {
+      if (files[key].size < 5000000) {
         fileArray.push(files[key]);
         values.file = [...fileArray];
         return fileArray;
@@ -50,8 +50,9 @@ const IpfsUpload = () => {
         const metaData = {
           name: name,
           description: description,
-          status: status,
-          cid: url,
+          visibility: status,
+          cid: path,
+          user: accounts[0],
         };
         metadata.push(JSON.stringify(metaData));
       }
@@ -67,7 +68,7 @@ const IpfsUpload = () => {
       console.log("Metadata deployed at: ", metaUrl);
 
       setMetadataCID(metaUrl);
-      await contract.methods._upload([metaUrl]).send({
+      await contract.methods._upload([path]).send({
         from: accounts[0],
       });
       setValues(initial);
