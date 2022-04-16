@@ -79,6 +79,7 @@ contract DecentralizedLibrary {
     /// @notice Get a list of all uploaded hashes from the Library
     /// @dev view function to return an array of strings representing the hashes of all uploaded files in the Library
     /// @return string[] returns array of strings, representing the uploaded hashes of metadata files to IPFS
+    
     function _getListOfAllUploadedCIDS() public view returns (string[] memory) {
         return allUploadedFiles;
     }
@@ -87,6 +88,7 @@ contract DecentralizedLibrary {
     /// @dev view function to return an array of strings representing the hashes of uploaded files for a particular address
     /// @param _address The address to check for it's uploaded files
     /// @return string[] array of strings, representing the uploaded hashes of metadata files to IPFS
+    
     function _getListOfUploadedCIDS(address _address)
         public
         view
@@ -125,6 +127,7 @@ contract DecentralizedLibrary {
         );
     }
 
+
     /// @notice Share files with a non existing customer in the Library
     /// @dev Update the recipients mapping address with the list of shared files
     /// @param _cidsToShare An array of strings to hold the hashes of files to share
@@ -151,6 +154,7 @@ contract DecentralizedLibrary {
     /// @notice Get a list of all files that an address has shared
     /// @param _address The address to check for it's shared files
     /// @return string[] returns array ff strings, representing the list of shared files for the address
+
     function _getSharedFiles(address _address) public view returns (string[] memory) {
         return _sharedFiles[_address];
     }
@@ -184,6 +188,7 @@ contract DecentralizedLibrary {
     /// @param _address The address to check for it's existing shared hashes
     /// @param _cidsToShare The new set of shared hashes to add to the existing
     /// @return string[] returns array of strings, representing the total hashes of existing and new shared hashes
+
     function _addTwoArraysShared(address _address, string[] memory _cidsToShare)
         public
         returns (string[] memory)
@@ -213,6 +218,4 @@ contract DecentralizedLibrary {
         return (false);
     }
 }
-
-
 
