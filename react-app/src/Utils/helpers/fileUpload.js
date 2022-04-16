@@ -37,7 +37,7 @@ const IpfsUpload = () => {
 
   const handleUpload = async (event, values, setValues, initial) => {
     event.preventDefault();
-    const { name, description, visibility } = values;
+    const { name, description, status } = values;
 
     const accounts = await web3.eth.getAccounts();
 
@@ -50,15 +50,17 @@ const IpfsUpload = () => {
         const metaData = {
           "name": name,
           "description": description,
-          "visibility": visibility,
+          "visibility": status,
           "cid": path,
           "user": accounts[0]
         };
-        metadata.push(JSON.stringify(metaData))
+        metadata.push(JSON.stringify(metaData));
       }
 
       console.log("metadata array", metadata);
-      const file = new File(metadata, 'meta.json', { type: "application/json" })
+      const file = new File(metadata, "meta.json", {
+        type: "application/json",
+      });
 
       const { path } = await client.add(file);
       const metaUrl = `https://ipfs.infura.io/ipfs/${path}`;
