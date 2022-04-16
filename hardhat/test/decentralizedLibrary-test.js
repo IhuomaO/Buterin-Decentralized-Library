@@ -7,7 +7,7 @@ describe("Decentralized Library", function () {
   let library, DecenLibrary, fileArr;
 
   beforeEach(async () => {
-    DecenLibrary = await ethers.getContractFactory("DecenLibrary");
+    DecenLibrary = await ethers.getContractFactory("DecentralizedLibrary");
 
     library = await DecenLibrary.deploy();
   });
