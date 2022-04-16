@@ -1,14 +1,14 @@
 require("@nomiclabs/hardhat-waffle");
-require('hardhat-docgen');
+// require('hardhat-docgen');
 
-const docgen = {
-  docgen:
-  {
-  path: './docs',
-  clear: true,
-  runOnCompile: true,
-  }
-}
+// const docgen = {
+//   docgen:
+//   {
+//   path: './docs',
+//   clear: true,
+//   runOnCompile: true,
+//   }
+// }
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
