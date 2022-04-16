@@ -5,9 +5,28 @@ describe("Decentralized Library", function () {
   this.timeout(0);
 
   let library, DecenLibrary, fileArr;
+  fileArr = [
+    {
+      name: "Bg Nft",
+      description: "This is my NFT",
+      image: "../img/bg.png",
+    },
+
+    {
+      name: "download NFT",
+      description: "This is my NFT",
+      image: "../img/download.png",
+    },
+
+    {
+      name: "possibilities NFT",
+      description: "This is my NFT",
+      image: "../img/possibilities1.jpg",
+    },
+  ];
 
   beforeEach(async () => {
-    DecenLibrary = await ethers.getContractFactory("DecenLibrary");
+    DecenLibrary = await ethers.getContractFactory("DecentralizedLibrary");
 
     library = await DecenLibrary.deploy();
   });
@@ -17,12 +36,6 @@ describe("Decentralized Library", function () {
     expect(library.address.length).to.be.gt(0);
   });
 
-  //   it("should get balance value", async () => {
-  //     const [owner] = await ethers.getSigners();
-  //     console.log({ owner: owner.address });
-  //     console.log({ library: library.address });
-  //     expect(await owner.viewBalance()).to.deep.eq(0);
-  //   });
 
   it("should upload cid", async () => {
     fileArr = ["uploaded", "food", "book", "movies"];
