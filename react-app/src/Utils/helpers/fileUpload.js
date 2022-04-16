@@ -5,7 +5,11 @@ import { web3, contract } from "../contract";
 const IpfsUpload = () => {
   const [buffer, setBuffer] = useState([]);
   const [metadataCID, setMetadataCID] = useState([]);
+<<<<<<< HEAD
   const metadata = []
+=======
+  const metadata = [];
+>>>>>>> feat-share-file
 
   const client = create("https://ipfs.infura.io:5001/api/v0");
   const convertToBuffer = (reader) => {
@@ -37,7 +41,7 @@ const IpfsUpload = () => {
 
   const handleUpload = async (event, values, setValues, initial) => {
     event.preventDefault();
-    const { name, description, visibility } = values;
+    const { name, description, status } = values;
 
     const accounts = await web3.eth.getAccounts();
 
@@ -48,16 +52,18 @@ const IpfsUpload = () => {
         const url = `https://ipfs.infura.io/ipfs/${path}`;
         console.log("File", i + 1, "deployed at: ", url);
         const metaData = {
-          "name": name,
-          "description": description,
-          "visibility": visibility,
-          "cid": url,
+          name: name,
+          description: description,
+          status: status,
+          cid: url,
         };
-        metadata.push(JSON.stringify(metaData))
+        metadata.push(JSON.stringify(metaData));
       }
 
       console.log("metadata array", metadata);
-      const file = new File(metadata, 'meta.json', { type: "application/json" })
+      const file = new File(metadata, "meta.json", {
+        type: "application/json",
+      });
 
       const { path } = await client.add(file);
       const metaUrl = `https://ipfs.infura.io/ipfs/${path}`;
