@@ -1,4 +1,4 @@
-import { disconnect } from "process";
+// import { disconnect } from "process";
 
 export async function requestAccount(setWalletAddress) {
   console.log("requesting account..");

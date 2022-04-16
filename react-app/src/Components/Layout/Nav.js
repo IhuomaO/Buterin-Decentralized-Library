@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import Button from "../Button";
 import { requestAccount } from "../../Utils/helpers/ConnectMetamask.helper";
@@ -32,13 +32,20 @@ const Nav = ({ page, pageHandler, connectWallet }) => {
           </h3>
         )}
 
-        {walletAddress === null && (
+        {walletAddress === null ? (
           <Button
             className="mx-auto"
             onClick={() => requestAccount(setWalletAddress)}
           >
             Connect
           </Button>
+        ) : (
+            <Button
+              className="mx-auto"
+              onClick={() => setWalletAddress(null)}
+            >
+              Disconnect
+            </Button> 
         )}
       </div>
     </div>

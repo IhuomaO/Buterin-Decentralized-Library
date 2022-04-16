@@ -3,7 +3,7 @@ import Upload from "./Views/Upload";
 import Layout from "./Components/Layout";
 import { useState } from "react";
 import LandingPage from "./Views/LandingPage";
-import Ipfs from "./Utils/ipfs";
+// import Ipfs from "./Utils/ipfs";
 import Share from "./Views/Share";
 
 function App() {
