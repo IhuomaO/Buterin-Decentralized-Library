@@ -11,7 +11,7 @@ const Upload = () => {
     description: "",
     name: "",
     cid: "",
-    visibility: "",
+    status: "",
   };
   const { values, onChange, setValues } = useForm(initialState);
 
@@ -31,20 +31,20 @@ const Upload = () => {
         />
         <div>
           <label
-            htmlFor="visibility"
+            htmlFor="status"
             className="form-label inline-block mb-1 text-white-700"
           >
-            Visibility
+            Status
           </label>
           <div className="form-control block w-full">
             <select
               className="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
               aria-label="Default select example"
               onChange={onChange}
-              name="visibility"
-              value={values.visibility}
+              name="status"
+              value={values.status}
             >
-              <option value="Set visibility">Set visibility</option>
+              <option value="Set status">Set status</option>
               <option value="Private">Private</option>
               <option value="Public">Public</option>
             </select>
