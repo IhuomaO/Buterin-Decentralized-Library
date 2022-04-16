@@ -2,26 +2,53 @@
 
 pragma solidity ^0.8.0;
 
+/** @title Decentralized Library */
+/**
+    @notice This contract allows you to upload files to the decentralized library,
+    retrieve and share files between addresses
+    @dev All function calls are currently implemented without side effects 
+     */
 contract DecentralizedLibrary {
+    
     /// @notice Public Variable to track all the hashes(cids) that has been uploaded to library
     /// @dev Variable is an array of strings
     string[] public allUploadedFiles;
+
+
     /// @notice Public Variable to track the addresses that has uploaded files to Library
     /// @dev Variable is an array of addresses
     address[] public upLoaders;
+
+
     /// @notice Public Variable to track the uploaded hashes of the metadata of files uploaded by an address
     /// @dev Variable is an array of strings. Each upload generates a string and that string is stored in an array an passed into this variable
     mapping(address => string[]) public _uploadedCIDS;
-    /// @notice Public Variable to track the uploaded hashes of the metadata of files uploaded by an address
+
+
+    /// @notice Public Variable to track the uploaded hashes of the metadata of files shared by an address
     /// @dev Variable is an array of strings. Each upload generates a string and that string is stored in an array an passed into this variable
     mapping(address => string[]) public _sharedFiles;
 
+    /// @notice this event is emitted when an upload occurs.
+    /// @param message the uploaded message.
     event Upload(string message);
+
+    /// @notice this event is emitted when a subsequent upload occurs.
+    /// @param message the uploaded message.
     event SubsequentUpload(string message);
+
+    /// @notice this event is emitted when a file is shared with an existing user
+    /// @param message the uploaded message.
+    /// @param recipient the recipient of the shared file
     event SharewithExisting(string message, address recipient);
+
+    /// @notice this event is emitted when a file is shared with a new user
+    /// @param message the uploaded message.
+    /// @param recipient the recipient of the shared file
     event SharewithNew(string message, address recipient);
 
-    /// @notice Upload a file as a first-time user of the Library
+
+    /// @notice upload a file as a first-time user of the Library
     /// @dev Update the mapping based on the address calling the function with the array of uploaded hashes
     /// @param _cidsToUpload The Array list of hashes to upload to IPFS
     function _upload(string[] memory _cidsToUpload) public {
@@ -51,7 +78,8 @@ contract DecentralizedLibrary {
 
     /// @notice Get a list of all uploaded hashes from the Library
     /// @dev view function to return an array of strings representing the hashes of all uploaded files in the Library
-    /// @return An array of strings, representing the uploaded hashes of metadata files to IPFS
+    /// @return string[] returns array of strings, representing the uploaded hashes of metadata files to IPFS
+    
     function _getListOfAllUploadedCIDS() public view returns (string[] memory) {
         return allUploadedFiles;
     }
@@ -59,7 +87,8 @@ contract DecentralizedLibrary {
     /// @notice Get a list of uploaded hashes from the Library for a particular address
     /// @dev view function to return an array of strings representing the hashes of uploaded files for a particular address
     /// @param _address The address to check for it's uploaded files
-    /// @return An array of strings, representing the uploaded hashes of metadata files to IPFS
+    /// @return string[] array of strings, representing the uploaded hashes of metadata files to IPFS
+    
     function _getListOfUploadedCIDS(address _address)
         public
         view
@@ -98,7 +127,8 @@ contract DecentralizedLibrary {
         );
     }
 
-    //// @notice Share files with a non existing customer in the Library
+
+    /// @notice Share files with a non existing customer in the Library
     /// @dev Update the recipients mapping address with the list of shared files
     /// @param _cidsToShare An array of strings to hold the hashes of files to share
     /// @param _recipient The address to share the files with
@@ -123,7 +153,8 @@ contract DecentralizedLibrary {
 
     /// @notice Get a list of all files that an address has shared
     /// @param _address The address to check for it's shared files
-    /// @return An array pf strings, representing the list of shared files for the address
+    /// @return string[] returns array ff strings, representing the list of shared files for the address
+
     function _getSharedFiles(address _address) public view returns (string[] memory) {
         return _sharedFiles[_address];
     }
@@ -139,7 +170,8 @@ contract DecentralizedLibrary {
     /// @dev This is tailored for uploading and subsequent uploads
     /// @param _address The address to check for it's existing hashes
     /// @param _newCidsToUpload The new set of hashes to add to the existing
-    /// @return An array of strings, representing the total hashes of existing and new hashes
+    /// @return string[] returns array of strings, representing the total hashes of existing and new hashes
+
     function _addTwoArrays(address _address, string[] memory _newCidsToUpload)
         public
         returns (string[] memory)
@@ -155,7 +187,8 @@ contract DecentralizedLibrary {
     /// @dev Retrieve the array of existing shared hashes and add to it, the elements of another similar array
     /// @param _address The address to check for it's existing shared hashes
     /// @param _cidsToShare The new set of shared hashes to add to the existing
-    /// @return An array of strings, representing the total hashes of existing and new shared hashes
+    /// @return string[] returns array of strings, representing the total hashes of existing and new shared hashes
+
     function _addTwoArraysShared(address _address, string[] memory _cidsToShare)
         public
         returns (string[] memory)
@@ -168,7 +201,7 @@ contract DecentralizedLibrary {
     }
 
     /// @notice Get balance of address calling function
-    /// @return ether balance of the wallet calling the function
+    /// @return uint balance of the wallet calling the function
     function viewBalance() public view returns (uint256) {
         return address(msg.sender).balance;
     }
@@ -177,6 +210,7 @@ contract DecentralizedLibrary {
     /// @dev confirm if address is in the User Array
     /// @param _address The address to check if it's an existing user
     /// @return boolean, whether an address is existing in the Users Array
+
     function isAnUploader(address _address) public view returns (bool) {
         for (uint8 s = 0; s < upLoaders.length; s += 1) {
             if (_address == upLoaders[s]) return (true);
@@ -185,4 +219,3 @@ contract DecentralizedLibrary {
     }
 }
 
-//4. DEPLOY FINAL CONTRACT TO RINKEBY **TEGA
