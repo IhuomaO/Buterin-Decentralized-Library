@@ -60,6 +60,7 @@ contract DecentralizedLibrary {
     /// @dev view function to return an array of strings representing the hashes of uploaded files for a particular address
     /// @param _address The address to check for it's uploaded files
     /// @return An array of strings, representing the uploaded hashes of metadata files to IPFS
+
     function _getListOfUploadedCIDS(address _address)
         public
         view
@@ -140,6 +141,7 @@ contract DecentralizedLibrary {
     /// @param _address The address to check for it's existing hashes
     /// @param _newCidsToUpload The new set of hashes to add to the existing
     /// @return An array of strings, representing the total hashes of existing and new hashes
+
     function _addTwoArrays(address _address, string[] memory _newCidsToUpload)
         public
         returns (string[] memory)
@@ -177,6 +179,7 @@ contract DecentralizedLibrary {
     /// @dev confirm if address is in the User Array
     /// @param _address The address to check if it's an existing user
     /// @return boolean, whether an address is existing in the Users Array
+
     function isAnUploader(address _address) public view returns (bool) {
         for (uint8 s = 0; s < upLoaders.length; s += 1) {
             if (_address == upLoaders[s]) return (true);
