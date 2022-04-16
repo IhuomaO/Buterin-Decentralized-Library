@@ -33,10 +33,10 @@ function LandingPage() {
         </div>
       </section>
 
-      <section className="flex ">
+      <section className="grid grid-cols-3 gap-10 ">
         {
           metaCids?.map((metacid, index) => (
-              <Card key={metacid} />
+            <Card key={metacid} metacid={metacid}  />
           ))
         }
       </section>
