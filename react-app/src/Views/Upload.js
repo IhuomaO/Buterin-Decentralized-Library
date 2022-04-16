@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../Components/Button";
 import FileInput from "../Components/FileInput";
 import Input from "../Components/Input";
-import IpfsUpload from "../Utils/helpers/fileUpload";
+import IpfsUpload from "../utils/helpers/fileUpload";
 import useForm from "../Hooks/useForm";
 
 const Upload = () => {

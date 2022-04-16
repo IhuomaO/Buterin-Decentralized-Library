@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import Button from "../Button";
-import { requestAccount } from "../../Utils/helpers/ConnectMetamask.helper";
+import { requestAccount } from "../../utils/helpers/ConnectMetamask.helper";
 
 const Nav = ({ page, pageHandler, connectWallet }) => {
   const links = ["Home", "Upload"];
