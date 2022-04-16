@@ -37,7 +37,7 @@ const IpfsUpload = () => {
 
   const handleUpload = async (event, values, setValues, initial) => {
     event.preventDefault();
-    const { name, description, visibility } = values;
+    const { name, description, status } = values;
 
     const accounts = await web3.eth.getAccounts();
 
@@ -50,7 +50,7 @@ const IpfsUpload = () => {
         const metaData = {
           name: name,
           description: description,
-          visibility: visibility,
+          status: status,
           cid: url,
         };
         metadata.push(JSON.stringify(metaData));

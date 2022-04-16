@@ -4,7 +4,7 @@ import Button from "../Button";
 import { requestAccount } from "../../Utils/helpers/ConnectMetamask.helper";
 
 const Nav = ({ page, pageHandler, connectWallet }) => {
-  const links = ["Home", "Upload"];
+  const links = ["Home", "Upload", "Share"];
   const [walletAddress, setWalletAddress] = useState("");
 
   return (

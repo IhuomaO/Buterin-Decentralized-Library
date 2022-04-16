@@ -4,6 +4,7 @@ import Layout from "./Components/Layout";
 import { useState } from "react";
 import LandingPage from "./Views/LandingPage";
 import Ipfs from "./Utils/ipfs";
+import Share from "./Views/Share";
 
 function App() {
   const [page, setPage] = useState(0);
@@ -12,7 +13,10 @@ function App() {
   };
   return (
     <Layout page={page} pageHandler={pageHandler} className=" items-center ">
-      {page === 1 ? <Upload /> : <LandingPage />}
+      {/* {page === 1 ? <Upload /> : <LandingPage />} */}
+      {page === 0 && <LandingPage />}
+      {page === 1 && <Upload />}
+      {page === 2 && <Share />}
     </Layout>
   );
 }

@@ -5,7 +5,7 @@ export async function requestAccount(setWalletAddress) {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      localStorage.setItem("account", accounts[0]);
+      window.localStorage.setItem("account", accounts[0]);
       setWalletAddress(accounts[0]);
       console.log("Successfully connected to " + accounts[0]);
     } catch (error) {
