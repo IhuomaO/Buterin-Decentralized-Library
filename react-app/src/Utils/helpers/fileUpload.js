@@ -5,11 +5,7 @@ import { web3, contract } from "../contract";
 const IpfsUpload = () => {
   const [buffer, setBuffer] = useState([]);
   const [metadataCID, setMetadataCID] = useState([]);
-<<<<<<< HEAD
-  const metadata = []
-=======
   const metadata = [];
->>>>>>> feat-share-file
 
   const client = create("https://ipfs.infura.io:5001/api/v0");
   const convertToBuffer = (reader) => {
