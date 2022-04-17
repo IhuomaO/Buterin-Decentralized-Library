@@ -9,7 +9,7 @@ const Card = ({ metacid, ...props }) => {
       <p className="w-full break-words ">Description: <span className="font-normal text-white" >{metacid?.description}</span> </p>
       {
         metacid?.status.toLowerCase() === 'public' &&
-        <p className="w-full break-words font-bold">Hash: <a href={metacid?.ipfsCID} className="underline text-xs text-blue-100 font-normal cursor-pointer" >{metacid?.ipfsHash}</a> </p>
+        <p className="w-full break-words font-bold">Hash 2: <a href={metacid?.ipfsCID} className="underline text-xs text-blue-100 font-normal cursor-pointer" >{metacid?.ipfsHash}</a> </p>
       }
 
     </div>
