@@ -38,7 +38,7 @@ const IpfsUpload = () => {
   const handleUpload = async (event, values, setValues, initial) => {
     event.preventDefault();
     const { name, description, status, type } = values;
-console.log(type);
+    console.log(type);
     const accounts = await web3.eth.getAccounts();
 
     console.log("Sending from Metamask account: " + accounts[0]);
@@ -48,12 +48,12 @@ console.log(type);
         const url = `https://ipfs.infura.io/ipfs/${path}`;
         console.log("File", i + 1, "deployed at: ", url);
         const metaData = {
-          "name": name,
-          "description": description,
-          "visibility": status,
-          "ipfsCID": url,
-          "ipfsHash": path,
-          "walletAddress": accounts[0],
+          name,
+          description,
+          status,
+          ipfsCID: url,
+          ipfsHash: path,
+          walletAddress: accounts[0],
         };
         metadata.push(JSON.stringify(metaData));
       }

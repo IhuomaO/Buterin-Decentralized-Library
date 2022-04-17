@@ -1,6 +1,6 @@
 // import { disconnect } from "process";
 
-export async function requestAccount(setWalletAddress) {
+export async function requestAccount() {
   console.log("requesting account..");
   if (window.ethereum) {
     try {
@@ -8,7 +8,6 @@ export async function requestAccount(setWalletAddress) {
         method: "eth_requestAccounts",
       });
       window.localStorage.setItem("account", accounts[0]);
-      setWalletAddress(accounts[0]);
       console.log("Successfully connected to " + accounts[0]);
     } catch (error) {
       console.log("Error connecting..");

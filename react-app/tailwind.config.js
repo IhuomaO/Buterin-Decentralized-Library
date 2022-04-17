@@ -4,6 +4,10 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      nunito: ['Nunito', 'sans-serif'],
+      inconsolata: ['Inconsolata', 'monospace', 'sans-serif'],
+    }
   },
   plugins: [],
 }

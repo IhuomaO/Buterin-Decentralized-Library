@@ -11,7 +11,7 @@ function App() {
     setPage(index);
   };
   return (
-    <Layout page={page} pageHandler={pageHandler} className=" items-center ">
+    <Layout page={page} pageHandler={pageHandler} className=" items-center font-nunito ">
       {/* {page === 1 ? <Upload /> : <LandingPage />} */}
       {page === 0 && <LandingPage />}
       {page === 1 && <Upload />}
