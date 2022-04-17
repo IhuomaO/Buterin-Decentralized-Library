@@ -53,20 +53,20 @@ const Upload = () => {
         </div>
         <div>
           <label
-            htmlFor="form-type"
+            htmlFor="file-type"
             className="form-label inline-block mb-1 text-white-700"
           >
             File Type
           </label>
           <div className="form-control block w-full">
             <select
-              className="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-              aria-label="Default select example"
+              className="form-type-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              aria-label="Default type-select example"
               onChange={onChange}
-              name="form-type"
+              name="file-type"
               value={values.type}
             >
-              <option value="Set form-type">Set File   type</option>
+              <option value="Set file-type">Set File   type</option>
               <option value="image">image</option>
               <option value="pdf">pdf</option>
               <option value="other">other</option>

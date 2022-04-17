@@ -51,9 +51,9 @@ console.log(type);
           "name": name,
           "description": description,
           "visibility": status,
-          "cid": path,
-          "user": accounts[0],
-          "type": type
+          "ipfsCID": url,
+          "ipfsHash": path,
+          "walletAddress": accounts[0],
         };
         metadata.push(JSON.stringify(metaData));
       }

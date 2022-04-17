@@ -5,6 +5,7 @@ const useForm = (initialState) => {
 
   const onChange = (e) => {
     const { type, name } = e.target;
+    console.log(name, type, e.target.selectedOptions);
 
     const getValue = () => {
       if (type === "checkbox") {
